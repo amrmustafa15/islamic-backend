@@ -2,7 +2,7 @@ import express from "express";
 import lessonsController from "../controllers/lessonsController.js";
 
 const router = express.Router();
-router.get("/all", lessonsController.getAll);
+router.get("/", lessonsController.getAll);
 router.get("/latest", lessonsController.getLatest);
 router.get("/:id", lessonsController.getById);
 router.put("/", lessonsController.create);

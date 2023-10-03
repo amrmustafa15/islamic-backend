@@ -13,6 +13,9 @@ import { errors } from "./config/errors.js";
 import AppError from "./models/error.js";
 import liveStreamsRoutes from "./routes/liveStreamsRoutes.js";
 import categoriesRoutes from "./routes/categoriesRoutes.js";
+import lessonsRoutes from "./routes/lessonsRoutes.js";
+import authorsRoutes from "./routes/authorsRoutes.js";
+import benefitsRoutes from "./routes/benefitsRoutes.js";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -55,6 +58,9 @@ const setupRouters = () => {
 
   app.use("/livestreams", liveStreamsRoutes);
   app.use("/categories", categoriesRoutes);
+  app.use("/lessons", lessonsRoutes);
+  app.use("/authors", authorsRoutes);
+  app.use("/benefits", benefitsRoutes);
 };
 
 const setupErrorHandlers = () => {
