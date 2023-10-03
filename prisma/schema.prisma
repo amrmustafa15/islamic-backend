@@ -70,6 +70,7 @@ model Book {
   title         String
   coverImageUrl String
   downloadUrl   String
+  author        String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

@@ -16,6 +16,8 @@ import categoriesRoutes from "./routes/categoriesRoutes.js";
 import lessonsRoutes from "./routes/lessonsRoutes.js";
 import authorsRoutes from "./routes/authorsRoutes.js";
 import benefitsRoutes from "./routes/benefitsRoutes.js";
+import booksRoutes from "./routes/booksRoutes.js";
+import blogsRoutes from "./routes/blogsRoutes.js";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -61,6 +63,8 @@ const setupRouters = () => {
   app.use("/lessons", lessonsRoutes);
   app.use("/authors", authorsRoutes);
   app.use("/benefits", benefitsRoutes);
+  app.use("/books", booksRoutes);
+  app.use("/blogs", blogsRoutes);
 };
 
 const setupErrorHandlers = () => {

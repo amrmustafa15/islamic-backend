@@ -2,7 +2,9 @@ import express from "express";
 import { db } from "../db.js";
 
 const getAll = async (req: express.Request, res: express.Response) => {
-  const all = await db.lesson.findMany();
+  const all = await db.lesson.findMany({
+    include: { category: true, author: true },
+  });
   return res.status(200).json(all);
 };
 
@@ -12,6 +14,7 @@ const getLatest = async (req: express.Request, res: express.Response) => {
     orderBy: {
       createdAt: "desc",
     },
+    include: { category: true, author: true },
   });
   return res.status(200).json(latest);
 };
@@ -22,6 +25,7 @@ const getById = async (req: express.Request, res: express.Response) => {
     where: {
       id,
     },
+    include: { category: true, author: true },
   });
   return res.status(200).json(lesson);
 };
