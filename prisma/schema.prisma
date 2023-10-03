@@ -6,3 +6,70 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lessons   Lesson[]
+}
+
+model LiveStream {
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  date      String
+  time      String
+  location  String
+  streamUrl String
+}
+
+model DailyBenefit {
+  id      String @id @default(uuid())
+  title   String
+  content String
+}
+
+model Author {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lessons   Lesson[]
+  blogs     Blog[]
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  title       String
+  category    Category @relation(fields: [categoryId], references: [id])
+  author      Author   @relation(fields: [authorId], references: [id])
+  audioUrl    String?
+  pdfUrl      String?
+  documentUrl String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  categoryId  String
+  authorId    String
+}
+
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  author    Author   @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+}
+
+model Book {
+  id            String   @id @default(uuid())
+  title         String
+  coverImageUrl String
+  downloadUrl   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

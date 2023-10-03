@@ -7,10 +7,12 @@ import { createServer } from "http";
 import morgan from "morgan";
 import env from "./env.js";
 import { requestIdMiddleware } from "./middlewares/requestId.js";
-import exampleRouter from "./routes/exampleRouter.js";
+import exampleRouter from "./routes/liveStreamsRoutes.js";
 import { errorHandler } from "./utils/errorHandler.js";
 import { errors } from "./config/errors.js";
 import AppError from "./models/error.js";
+import liveStreamsRoutes from "./routes/liveStreamsRoutes.js";
+import categoriesRoutes from "./routes/categoriesRoutes.js";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -51,7 +53,8 @@ const setupRouters = () => {
     res.status(200).send("Everything is working great!")
   );
 
-  app.use("/api", exampleRouter);
+  app.use("/livestreams", liveStreamsRoutes);
+  app.use("/categories", categoriesRoutes);
 };
 
 const setupErrorHandlers = () => {
