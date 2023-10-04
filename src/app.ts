@@ -18,6 +18,7 @@ import authorsRoutes from "./routes/authorsRoutes.js";
 import benefitsRoutes from "./routes/benefitsRoutes.js";
 import booksRoutes from "./routes/booksRoutes.js";
 import blogsRoutes from "./routes/blogsRoutes.js";
+import { db } from "./db.js";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -65,6 +66,42 @@ const setupRouters = () => {
   app.use("/benefits", benefitsRoutes);
   app.use("/books", booksRoutes);
   app.use("/blogs", blogsRoutes);
+
+  app.post("/search", async (req, res) => {
+    const { type, query } = req.body;
+    if (type == "lessons") {
+      const data = await db.lesson.findMany({
+        where: {
+          title: {
+            search: query,
+          },
+        },
+        include: { category: true, author: true, subLessons: true },
+      });
+      return res.status(200).json(data);
+    }
+    if (type == "books") {
+      const data = await db.book.findMany({
+        where: {
+          title: {
+            search: query,
+          },
+        },
+      });
+      return res.status(200).json(data);
+    }
+    if (type == "blogs") {
+      const data = await db.blog.findMany({
+        where: {
+          title: {
+            search: query,
+          },
+        },
+      });
+      return res.status(200).json(data);
+    }
+    return res.status(200).json([]);
+  });
 };
 
 const setupErrorHandlers = () => {
