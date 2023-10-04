@@ -14,7 +14,7 @@ const getById = async (req: express.Request, res: express.Response) => {
     where: {
       id,
     },
-    include: { lessons: true },
+    include: { lessons: { include: { subLessons: true } } },
   });
   return res.status(200).json(category);
 };

@@ -33,15 +33,6 @@ model DailyBenefit {
   content String
 }
 
-model Author {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  lessons   Lesson[]
-  blogs     Blog[]
-}
-
 model SubLesson {
   id          String   @id @default(uuid())
   title       String
@@ -58,22 +49,20 @@ model Lesson {
   id         String      @id @default(uuid())
   title      String
   category   Category    @relation(fields: [categoryId], references: [id])
-  author     Author      @relation(fields: [authorId], references: [id])
   subLessons SubLesson[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   categoryId String
-  authorId   String
+  author     String      @default("N/A")
 }
 
 model Blog {
   id        String   @id @default(uuid())
   title     String
   content   String
-  author    Author   @relation(fields: [authorId], references: [id])
+  author    String   @default("N/A")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  authorId  String
 }
 
 model Book {

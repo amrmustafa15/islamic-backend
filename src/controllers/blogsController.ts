@@ -4,7 +4,7 @@ import exampleService from "../services/exampleService.js";
 import { db } from "../db.js";
 
 const getAll = async (req: express.Request, res: express.Response) => {
-  const all = await db.blog.findMany({ include: { author: true } });
+  const all = await db.blog.findMany();
   return res.status(200).json(all);
 };
 
@@ -14,17 +14,16 @@ const getById = async (req: express.Request, res: express.Response) => {
     where: {
       id,
     },
-    include: { author: true },
   });
   return res.status(200).json(blog);
 };
 
 const create = async (req: express.Request, res: express.Response) => {
-  const { title, authorId, content } = req.body;
+  const { title, author, content } = req.body;
   const blog = await db.blog.create({
     data: {
       title,
-      authorId,
+      author,
       content,
     },
   });
@@ -33,14 +32,14 @@ const create = async (req: express.Request, res: express.Response) => {
 
 const update = async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
-  const { title, authorId, content } = req.body;
+  const { title, author, content } = req.body;
   const blog = await db.blog.update({
     where: {
       id,
     },
     data: {
       title,
-      authorId,
+      author,
       content,
     },
   });

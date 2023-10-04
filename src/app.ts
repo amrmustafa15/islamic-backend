@@ -1,24 +1,22 @@
-import "reflect-metadata";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import hpp from "hpp";
 import { createServer } from "http";
 import morgan from "morgan";
+import "reflect-metadata";
+import { errors } from "./config/errors.js";
+import { db } from "./db.js";
 import env from "./env.js";
 import { requestIdMiddleware } from "./middlewares/requestId.js";
-import exampleRouter from "./routes/liveStreamsRoutes.js";
-import { errorHandler } from "./utils/errorHandler.js";
-import { errors } from "./config/errors.js";
 import AppError from "./models/error.js";
-import liveStreamsRoutes from "./routes/liveStreamsRoutes.js";
+import benefitsRoutes from "./routes/benefitsRoutes.js";
+import blogsRoutes from "./routes/blogsRoutes.js";
+import booksRoutes from "./routes/booksRoutes.js";
 import categoriesRoutes from "./routes/categoriesRoutes.js";
 import lessonsRoutes from "./routes/lessonsRoutes.js";
-import authorsRoutes from "./routes/authorsRoutes.js";
-import benefitsRoutes from "./routes/benefitsRoutes.js";
-import booksRoutes from "./routes/booksRoutes.js";
-import blogsRoutes from "./routes/blogsRoutes.js";
-import { db } from "./db.js";
+import liveStreamsRoutes from "./routes/liveStreamsRoutes.js";
+import { errorHandler } from "./utils/errorHandler.js";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -62,7 +60,7 @@ const setupRouters = () => {
   app.use("/livestreams", liveStreamsRoutes);
   app.use("/categories", categoriesRoutes);
   app.use("/lessons", lessonsRoutes);
-  app.use("/authors", authorsRoutes);
+  // app.use("/authors", authorsRoutes);
   app.use("/benefits", benefitsRoutes);
   app.use("/books", booksRoutes);
   app.use("/blogs", blogsRoutes);
@@ -76,7 +74,7 @@ const setupRouters = () => {
             search: query,
           },
         },
-        include: { category: true, author: true, subLessons: true },
+        include: { category: true, subLessons: true },
       });
       return res.status(200).json(data);
     }
