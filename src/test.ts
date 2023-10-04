@@ -60,6 +60,7 @@ const main = async () => {
       title: "First Book",
       coverImageUrl: "https://www.example.com/cover.jpg",
       downloadUrl: "https://www.example.com/book.pdf",
+      author: "7amdy",
     },
   });
 };
