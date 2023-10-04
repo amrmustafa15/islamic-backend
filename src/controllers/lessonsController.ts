@@ -3,7 +3,7 @@ import { db } from "../db.js";
 
 const getAll = async (req: express.Request, res: express.Response) => {
   const all = await db.lesson.findMany({
-    include: { category: true, author: true },
+    include: { category: true, author: true, subLessons: true },
   });
   return res.status(200).json(all);
 };
@@ -14,7 +14,7 @@ const getLatest = async (req: express.Request, res: express.Response) => {
     orderBy: {
       createdAt: "desc",
     },
-    include: { category: true, author: true },
+    include: { category: true, author: true, subLessons: true },
   });
   return res.status(200).json(latest);
 };
@@ -25,21 +25,17 @@ const getById = async (req: express.Request, res: express.Response) => {
     where: {
       id,
     },
-    include: { category: true, author: true },
+    include: { category: true, author: true, subLessons: true },
   });
   return res.status(200).json(lesson);
 };
 
 const create = async (req: express.Request, res: express.Response) => {
-  const { title, authorId, categoryId, audioUrl, documentUrl, pdfUrl } =
-    req.body;
+  const { title, authorId, categoryId } = req.body;
   const lesson = await db.lesson.create({
     data: {
       title,
       authorId,
-      audioUrl,
-      documentUrl,
-      pdfUrl,
       categoryId,
     },
   });
@@ -48,8 +44,7 @@ const create = async (req: express.Request, res: express.Response) => {
 
 const update = async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
-  const { title, authorId, categoryId, audioUrl, documentUrl, pdfUrl } =
-    req.body;
+  const { title, authorId, categoryId } = req.body;
   const lesson = await db.lesson.update({
     where: {
       id,
@@ -57,9 +52,6 @@ const update = async (req: express.Request, res: express.Response) => {
     data: {
       title,
       authorId,
-      audioUrl,
-      documentUrl,
-      pdfUrl,
       categoryId,
     },
   });

@@ -41,18 +41,28 @@ model Author {
   blogs     Blog[]
 }
 
-model Lesson {
+model SubLesson {
   id          String   @id @default(uuid())
   title       String
-  category    Category @relation(fields: [categoryId], references: [id])
-  author      Author   @relation(fields: [authorId], references: [id])
   audioUrl    String?
   pdfUrl      String?
   documentUrl String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  categoryId  String
-  authorId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+  lessonId    String
+}
+
+model Lesson {
+  id         String      @id @default(uuid())
+  title      String
+  category   Category    @relation(fields: [categoryId], references: [id])
+  author     Author      @relation(fields: [authorId], references: [id])
+  subLessons SubLesson[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  categoryId String
+  authorId   String
 }
 
 model Blog {
