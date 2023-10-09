@@ -17,6 +17,8 @@ import categoriesRoutes from "./routes/categoriesRoutes.js";
 import lessonsRoutes from "./routes/lessonsRoutes.js";
 import liveStreamsRoutes from "./routes/liveStreamsRoutes.js";
 import { errorHandler } from "./utils/errorHandler.js";
+import socialMediaRoutes from "./routes/socialMediaRoutes.js";
+import interactionRoutes from "./routes/interactionRoutes.js";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -64,6 +66,8 @@ const setupRouters = () => {
   app.use("/benefits", benefitsRoutes);
   app.use("/books", booksRoutes);
   app.use("/blogs", blogsRoutes);
+  app.use("/socialmedia", socialMediaRoutes);
+  app.use("/interactions", interactionRoutes);
 
   app.post("/search", async (req, res) => {
     const { type, query } = req.body;

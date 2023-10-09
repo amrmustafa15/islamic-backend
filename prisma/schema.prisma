@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum InteractionType {
+  VISIT
+  DOWNLOAD
+  LISTEN
+}
+
 model Category {
   id        String   @id @default(uuid())
   name      String
@@ -73,4 +79,20 @@ model Book {
   author        String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model SocialMedia {
+  id        String   @id
+  name      String
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Interaction {
+  id        String          @id @default(uuid())
+  type      InteractionType
+  ip        String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
 }
