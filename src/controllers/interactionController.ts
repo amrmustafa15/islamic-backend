@@ -5,7 +5,7 @@ import { db } from "../db.js";
 import { InteractionType } from "@prisma/client";
 
 const register = async (req: express.Request, res: express.Response) => {
-  const type = req.params.type.toLowerCase() as InteractionType;
+  const type = req.params.type.toUpperCase() as InteractionType;
   const ip = req.headers["x-forwarded-for"]?.toString() || req.ip;
   const interaction = await db.interaction.create({
     data: {
@@ -17,7 +17,7 @@ const register = async (req: express.Request, res: express.Response) => {
 };
 
 const getAll = async (req: express.Request, res: express.Response) => {
-  const type = req.params.type.toLowerCase() as InteractionType;
+  const type = req.params.type.toUpperCase() as InteractionType;
   const all = await db.interaction.findMany({
     where: {
       type,
