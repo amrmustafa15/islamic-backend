@@ -35,10 +35,12 @@
   },
   "dependencies": {
     "@prisma/client": "^5.3.1",
+    "@types/express-fileupload": "^1.4.2",
     "class-transformer": "^0.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "5.0.0-beta.1",
+    "express-fileupload": "^1.4.1",
     "got": "^13.0.0",
     "helmet": "^7.0.0",
     "hpp": "^0.2.3",

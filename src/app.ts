@@ -19,6 +19,8 @@ import liveStreamsRoutes from "./routes/liveStreamsRoutes.js";
 import { errorHandler } from "./utils/errorHandler.js";
 import socialMediaRoutes from "./routes/socialMediaRoutes.js";
 import interactionRoutes from "./routes/interactionRoutes.js";
+import fileUpload from "express-fileupload";
+import fs from "fs/promises";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -47,6 +49,7 @@ const setupExpressApp = async () => {
   );
   app.use(requestIdMiddleware);
   app.use(morgan("combined"));
+  app.use(fileUpload());
 
   setupRouters();
 
@@ -59,6 +62,8 @@ const setupRouters = () => {
     res.status(200).send("Everything is working great!")
   );
 
+  app.use("/uploads", express.static("uploads"));
+
   app.use("/livestreams", liveStreamsRoutes);
   app.use("/categories", categoriesRoutes);
   app.use("/lessons", lessonsRoutes);
@@ -68,6 +73,25 @@ const setupRouters = () => {
   app.use("/blogs", blogsRoutes);
   app.use("/socialmedia", socialMediaRoutes);
   app.use("/interactions", interactionRoutes);
+
+  app.post("/upload", async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      throw new AppError(400, 1024, "No files were uploaded.");
+    }
+
+    const file = req.files.file as fileUpload.UploadedFile;
+    if (!file) throw new AppError(400, 1024, "No files were uploaded.");
+    //make uploads dir if not exists using fs/promises
+    await fs.mkdir("uploads", { recursive: true });
+
+    file.mv(`uploads/${file.name}`, (err) => {
+      if (err) return res.status(500).send(err);
+
+      return res
+        .status(200)
+        .json({ success: true, path: `/uploads/${file.name}` });
+    });
+  });
 
   app.post("/search", async (req, res) => {
     const { type, query } = req.body;

@@ -90,9 +90,10 @@ model SocialMedia {
 }
 
 model Interaction {
-  id        String          @id @default(uuid())
-  type      InteractionType
-  ip        String
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  id         String          @id @default(uuid())
+  type       InteractionType
+  ip         String
+  resourceId String?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
 }
