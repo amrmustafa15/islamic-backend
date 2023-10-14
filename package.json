@@ -16,6 +16,7 @@
     "dev": "cross-env NODE_ENV=development nodemon src/app.ts",
     "test": "tsc && node dist/test.js",
     "build": "prisma generate && tsc",
+    "generate": "prisma generate",
     "db": "prisma db push",
     "studio": "prisma studio"
   },
